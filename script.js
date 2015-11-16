@@ -479,9 +479,6 @@ function createPath(startID, endID)
     var matrix = [];
 
 
-
-
-
     for(var i in waypoints)
     {
         for(var j in waypoints[i].relation)
@@ -489,17 +486,16 @@ function createPath(startID, endID)
             if(i != startID)
             {
                 var p = getProjection(waypoints[i], waypoints[j], waypoints[startID]);
-
-                if(isBelong(waypoints[i], waypoints[j], p))
+                if(!isBelong(waypoints[i], waypoints[j], p))
                 {
-                    var tmpStartDist = getDistance(waypoints[startID], p);
-
-                    if(tmpStartDist <  minStartDist)
-                    {
-                        minStartDist = tmpStartDist;
-                        startPoint = p;
-                        startRelations = [i,j];
-                    }
+        		    p = waypoints[i];
+		        }
+		        var tmpStartDist = getDistance(waypoints[startID], p);
+                if(tmpStartDist <  minStartDist)
+                {
+                    minStartDist = tmpStartDist;
+                    startPoint = p;
+		            startRelations = [i,j];
                 }
             }
 
@@ -507,21 +503,20 @@ function createPath(startID, endID)
             {
                 var p = getProjection(waypoints[i], waypoints[j], waypoints[endID]);
 
-                if(isBelong(waypoints[i], waypoints[j], p))
+                if(!isBelong(waypoints[i], waypoints[j], p))
                 {
-                    var tmpEndDist = getDistance(waypoints[endID], p);
-
-                    if(tmpEndDist <  minEndDist)
-                    {
-                        minEndDist = tmpEndDist;
-                        endPoint = p;
-                        endRelations = [i,j];
-                    }
+		            p = waypoints[i];
+		        }
+		        var tmpEndDist = getDistance(waypoints[endID], p);
+                if(tmpEndDist <  minEndDist)
+                {
+                    minEndDist = tmpEndDist;
+                    endPoint = p;
+                    endRelations = [i,j];
                 }
             }
         }
     }
-
     if(startPoint != null  && endPoint != null)
     {
         // start section
